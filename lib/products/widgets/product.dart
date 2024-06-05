@@ -19,6 +19,7 @@ class ProductWidget extends StatelessWidget {
   // this function shows the details of the current product
   void _showDetails(BuildContext context) {
     showModalBottomSheet(
+      constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
       backgroundColor: Colors.transparent,
       context: context,
       isScrollControlled: true,

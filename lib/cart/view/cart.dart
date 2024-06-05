@@ -47,13 +47,19 @@ class CartView extends StatelessWidget {
               body: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).padding.top),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(width: 50, child: BackButton()),
-                      Text(AppLocalizations.of(context)!.myCart, style: const TextStyle(fontSize: 24)),
-                      const SizedBox(width: 50)
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).padding.left,
+                      right: MediaQuery.of(context).padding.right,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(width: 50, child: BackButton()),
+                        Text(AppLocalizations.of(context)!.myCart, style: const TextStyle(fontSize: 24)),
+                        const SizedBox(width: 50)
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: state.products.isNotEmpty && getProductsState(context).products.isNotEmpty ? Stack(
