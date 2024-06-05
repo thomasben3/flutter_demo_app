@@ -2,15 +2,23 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/cart/widgets/cart_product.dart';
 import 'package:benebono_technical_ex/products/bloc/products_bloc.dart';
+import 'package:benebono_technical_ex/scaffold_components/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends StatefulWidget {
   const CartView({super.key});
 
-  // getProductsState is for the ProductBloc and here to access CartBloc we use state inside
-  // the BlocBuilder.
+  @override
+  State<CartView> createState() => _CartViewState();
+}
+
+class _CartViewState extends State<CartView> {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  // getProductsState is for the ProductBloc and here to access CartBloc we use state inside the BlocBuilder
   ProductsState getProductsState(BuildContext context) => context.watch<ProductsBloc>().state;
 
   String _getTotalPrice(BuildContext context, CartState state) =>
@@ -44,6 +52,8 @@ class CartView extends StatelessWidget {
         builder: (context, state) {
           if (state is CartLoadedState) {
             return Scaffold(
+              key: _scaffoldKey,
+              endDrawer: const AppDrawer(),
               body: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).padding.top),
@@ -57,7 +67,13 @@ class CartView extends StatelessWidget {
                       children: [
                         const SizedBox(width: 50, child: BackButton()),
                         Text(AppLocalizations.of(context)!.myCart, style: const TextStyle(fontSize: 24)),
-                        const SizedBox(width: 50)
+                        SizedBox(
+                          width: 50,
+                          child: IconButton(
+                            onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
+                            icon: const Icon(Icons.menu)
+                          ),
+                        )
                       ],
                     ),
                   ),

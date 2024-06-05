@@ -90,7 +90,7 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const SizedBox(width: 50),
-                              Text(AppLocalizations.of(context)!.myCart, style: const TextStyle(fontSize: 24)),
+                              Text(AppLocalizations.of(context)!.ourProducts, style: const TextStyle(fontSize: 24)),
                               SizedBox(
                                 width: 50,
                                 child: IconButton(
