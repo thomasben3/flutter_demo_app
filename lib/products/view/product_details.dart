@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/cart/models/cart_product.dart';
 import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
@@ -111,7 +113,7 @@ class ProductDetailsView extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 16.0),
+                                const SizedBox(height: 16),
                                 if (_getNbProductsInCart(context) < product.availableUnits)
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -130,10 +132,30 @@ class ProductDetailsView extends StatelessWidget {
                                     style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 17),
                                     textAlign: TextAlign.center,
                                   ),
-                                const SizedBox(height: 8.0),
-                                Text(
-                                  product.productDetails.longReason,
-                                  style: const TextStyle(fontSize: 16.0),
+                                const SizedBox(height: 16),
+                                Wrap(
+                                  alignment: WrapAlignment.center,
+                                  spacing: 15,
+                                  runSpacing: 15,
+                                  children: [
+                                    _ProductDetailsTile(
+                                      label: 'Poids :',
+                                      text: '${product.grams}g',
+                                    ),
+                                    _ProductDetailsTile(
+                                      label: 'Motif de la réduction :',
+                                      text: product.reason,
+                                    ),
+                                    _ProductDetailsTile(
+                                      label: 'À savoir :',
+                                      text: product.productDetails.mustKnow,
+                                    ),
+                                    if (product.productDetails.nutritionalFacts != "")
+                                      _ProductDetailsTile(
+                                        label: 'Nutrition :',
+                                        text: product.productDetails.nutritionalFacts,
+                                      )
+                                  ],
                                 ),
                               ],
                             );
@@ -157,6 +179,48 @@ class ProductDetailsView extends StatelessWidget {
           )
         ),
       ],
+    );
+  }
+}
+
+class _ProductDetailsTile extends StatelessWidget {
+  const _ProductDetailsTile({
+    required this.label,
+    required this.text,
+  });
+
+  final String label;
+  final String text;
+
+  double _getWidth(BuildContext context) => min(380, MediaQuery.of(context).size.width);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        width: _getWidth(context),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: const Color.fromARGB(255, 245, 245, 245)
+        ),
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 16.0),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
