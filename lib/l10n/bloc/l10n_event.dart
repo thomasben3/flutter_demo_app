@@ -7,6 +7,10 @@ sealed class L10nEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitLocaleEvent extends L10nEvent {
+  const InitLocaleEvent();
+}
+
 class ChangeLocaleEvent extends L10nEvent {
   const ChangeLocaleEvent(this.newLocale);
 

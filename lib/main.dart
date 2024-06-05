@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(BlocProvider(
-    create: (context) => L10nBloc(),
+    create: (context) => L10nBloc()..add(const InitLocaleEvent()),
     child: const MyApp(),
   ));
 }
