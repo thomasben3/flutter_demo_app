@@ -69,4 +69,7 @@ flutter:
 
   assets:
     - assets/images/sticker.png
+
+    - assets/images/flags/en.png
+    - assets/images/flags/fr.png
   

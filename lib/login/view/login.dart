@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
-  void _pushHome(BuildContext context) => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeView()));
+  void _pushHome(BuildContext context) => Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeView()));
 
   @override
   Widget build(BuildContext context) {

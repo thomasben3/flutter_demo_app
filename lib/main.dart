@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Technical sample',
-      locale: context.read<L10nBloc>().state.currentLocale,
+      locale: context.watch<L10nBloc>().state.currentLocale,
       supportedLocales: L10nState.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,

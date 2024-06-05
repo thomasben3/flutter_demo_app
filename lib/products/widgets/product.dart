@@ -12,9 +12,13 @@ class ProductWidget extends StatelessWidget {
 
   static const Color _backgroundColor = Color.fromARGB(255, 235, 235, 235);
 
-  double getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width);
+  double  getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width);
 
-  bool  _isProductInCart(BuildContext context) => context.watch<CartBloc>().state.products.any((e) => e.id == product.id);
+  bool    _isProductInCart(BuildContext context) => context.watch<CartBloc>().state.products.any((e) => e.id == product.id);
+
+  int     _getProductQuantityInCart(BuildContext context) => context.read<CartBloc>().state.products.firstWhere((e) => e.id == product.id).quantity;
+
+  bool    _canAddProductInCart(BuildContext context) => _getProductQuantityInCart(context) < product.availableUnits;
 
   // this function shows the details of the current product
   void _showDetails(BuildContext context) {
@@ -23,9 +27,9 @@ class ProductWidget extends StatelessWidget {
       backgroundColor: Colors.transparent,
       context: context,
       isScrollControlled: true,
-      builder: (BuildContext bContext) => ProductDetailsView(
-        product: product,
-        addProducts: (count) => context.read<CartBloc>().add(AddProductToCartEvent(product.id, quantity: count))
+      builder: (BuildContext bContext) => BlocProvider.value(
+        value: context.read<CartBloc>(),
+        child: ProductDetailsView(product: product),
       )
     );
   }
@@ -105,16 +109,18 @@ class ProductWidget extends StatelessWidget {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () => context.read<CartBloc>().add(AddProductToCartEvent(product.id)),
+                                  onTap: _canAddProductInCart(context) ? // ternary to prevent from adding more than available items in cart.
+                                    () => context.read<CartBloc>().add(AddProductToCartEvent(product.id))
+                                    : null,
                                   borderRadius: BorderRadius.circular(100),
-                                  child: const SizedBox(
+                                  child: SizedBox(
                                     height: 32,
                                     width: 32,
-                                    child: Icon(Icons.add_rounded, size: 20)
+                                    child: Icon(Icons.add_rounded, size: 20, color: _canAddProductInCart(context) ? null : Colors.grey)
                                   )
                                   ),
                               ),
-                              Text(context.watch<CartBloc>().state.products.firstWhere((e) => e.id == product.id).quantity.toString()),
+                              Text(_getProductQuantityInCart(context).toString()),
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(

@@ -4,14 +4,16 @@ import 'package:benebono_technical_ex/products/cubit/bool_cubit.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:benebono_technical_ex/products/widgets/cart_floating_button.dart';
 import 'package:benebono_technical_ex/products/widgets/product.dart';
+import 'package:benebono_technical_ex/scaffold_components/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
 
   static const double appBarHeight = 50;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class HomeView extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return Scaffold(
+            key: _scaffoldKey,
+            endDrawer: const AppDrawer(),
             floatingActionButton: const CartFloatingButton(),
             body: Container(
               color: Colors.white,
@@ -47,7 +51,7 @@ class HomeView extends StatelessWidget {
                                     padding: const EdgeInsets.all(16),
                                     child: Column(
                                       children: [
-                                        Text('Une erreur est survenue lors de la récupération des produits :'),
+                                        Text(AppLocalizations.of(context)!.anErrorOccurredWhileRetrievingTheProducts),
                                         const SizedBox(height: 15),
                                         Text(state.exception.toString()),
                                       ]
@@ -82,7 +86,7 @@ class HomeView extends StatelessWidget {
                               SizedBox(
                                 width: 50,
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
                                   icon: const Icon(Icons.menu)
                                 ),
                               )

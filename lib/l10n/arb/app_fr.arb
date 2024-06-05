@@ -13,5 +13,9 @@
 
     "proceedToCheckout": "Valider le panier",
 
-    "yourCartIsEmpty": "Votre panier est vide."
+    "yourCartIsEmpty": "Votre panier est vide.",
+
+    "itLooksLikeYouAlreadyHaveAllOurStockInYourCart": "Il semble que vous avez déja tout notre stock dans votre panier !",
+
+    "anErrorOccurredWhileRetrievingTheProducts": "Une erreur est survenue lors de la récupération des produits."
 }

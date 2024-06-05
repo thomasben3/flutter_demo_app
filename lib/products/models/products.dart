@@ -4,7 +4,7 @@ class Product {
   Product({this.rawData = const {}}) : _productDetails = ProductDetails(rawData['product_details'] ?? const {});
 
   // constructor used to make error checks like List<Product>.firstWhere(...., orElse: () => Product.sample())
-  Product.sample() : rawData = {'id': -1}, _productDetails = ProductDetails(const {});
+  Product.sample() : rawData = {'id': -1, 'availableUnits': 0}, _productDetails = ProductDetails(const {});
 
   final Map<String, dynamic> rawData;
   final ProductDetails _productDetails;

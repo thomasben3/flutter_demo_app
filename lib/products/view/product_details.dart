@@ -1,3 +1,5 @@
+import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
+import 'package:benebono_technical_ex/cart/models/cart_product.dart';
 import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
 import 'package:benebono_technical_ex/counter/view/counter.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
@@ -9,14 +11,17 @@ class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({
     super.key,
     required this.product,
-    required this.addProducts
   });
 
-  final Product             product;
-  final void Function(int)  addProducts;
+  final Product product;
 
   static const double _imageParentHeight = 150;
   static const double _imageParentWidth = 200;
+
+  int _getNbProductsInCart(BuildContext context) => context.read<CartBloc>().state.products.firstWhere(
+    (e) => e.id == product.id,
+    orElse: () => const CartProduct(id: -1, quantity: 0)
+  ).quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +88,7 @@ class ProductDetailsView extends StatelessWidget {
                                   style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 16.0),
-                                const Counter(min: 1),
+                                Counter(min: 1, max: product.availableUnits - _getNbProductsInCart(context)),
                                 const SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -107,17 +112,24 @@ class ProductDetailsView extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 16.0),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    foregroundColor: Colors.white
+                                if (_getNbProductsInCart(context) < product.availableUnits)
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      foregroundColor: Colors.white
+                                    ),
+                                    child: Text(AppLocalizations.of(context)!.addToCart),
+                                    onPressed: () {
+                                      context.read<CartBloc>().add(AddProductToCartEvent(product.id, quantity: state));
+                                      Navigator.of(context).pop();
+                                    }
+                                  )
+                                else
+                                  Text(
+                                    AppLocalizations.of(context)!.itLooksLikeYouAlreadyHaveAllOurStockInYourCart,
+                                    style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 17),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  child: Text(AppLocalizations.of(context)!.addToCart),
-                                  onPressed: () {
-                                    addProducts(state);
-                                    Navigator.of(context).pop();
-                                  }
-                                ),
                                 const SizedBox(height: 8.0),
                                 Text(
                                   product.productDetails.longReason,

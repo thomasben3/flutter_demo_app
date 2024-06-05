@@ -5,14 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Counter extends StatelessWidget {
   const Counter({
     super.key,
-    this.value,
     this.min,
+    this.max,
     this.colorWhen0
   });
 
-  final int?    value;
   final int?    min;
+  final int?    max;
   final Color?  colorWhen0;
+
+  static const int _defaultMin = -999;
+  static const int _defaultMax = 999;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class Counter extends StatelessWidget {
       children: [
         IconButton(
           style: IconButton.styleFrom(backgroundColor: Colors.white),
-          onPressed: () => context.read<CounterCubit>().decrement(),
+          onPressed: context.read<CounterCubit>().state > (min ?? _defaultMin) ? () => context.read<CounterCubit>().decrement() : null,
           icon: const Icon(Icons.remove_rounded)
         ),
         BlocBuilder<CounterCubit, int>(
@@ -34,7 +37,7 @@ class Counter extends StatelessWidget {
         ),
         IconButton(
           style: IconButton.styleFrom(backgroundColor: Colors.white),
-          onPressed: () => context.read<CounterCubit>().increment(),
+          onPressed: context.read<CounterCubit>().state < (max ?? _defaultMax) ? () => context.read<CounterCubit>().increment() : null,
           icon: const Icon(Icons.add_rounded)
         )
       ],

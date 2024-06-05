@@ -68,7 +68,9 @@ class CartProductWidget extends StatelessWidget {
                       ),
                       Text(cartProduct.quantity.toString()),
                       IconButton(
-                        onPressed: () => context.read<CartBloc>().add(AddProductToCartEvent(cartProduct.id)),
+                        onPressed: cartProduct.quantity < product.availableUnits ?
+                          () => context.read<CartBloc>().add(AddProductToCartEvent(cartProduct.id))
+                          : null,
                         icon: const Icon(Icons.add_rounded)
                       )
                     ],
