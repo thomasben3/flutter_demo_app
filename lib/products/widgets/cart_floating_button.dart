@@ -1,6 +1,7 @@
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/cart/view/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartFloatingButton extends StatelessWidget {
@@ -42,6 +43,8 @@ class CartFloatingButton extends StatelessWidget {
                     child: Text(state.nbProducts.toString())
                   ),
                 ),
+              ).animate(
+                effects: const [ScaleEffect(curve: Curves.ease)]
               )
           ],
         );

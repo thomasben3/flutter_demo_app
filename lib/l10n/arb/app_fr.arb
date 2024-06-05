@@ -1,0 +1,17 @@
+{
+    "language": "Français",
+
+    "logIn": "Se connecter",
+
+    "addToCart": "Ajouter au panier",
+
+    "unit": "unité",
+
+    "myCart": "Mon panier",
+
+    "saved": "économisés",
+
+    "proceedToCheckout": "Valider le panier",
+
+    "yourCartIsEmpty": "Votre panier est vide."
+}

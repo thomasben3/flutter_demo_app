@@ -1,5 +1,6 @@
 import 'package:benebono_technical_ex/products/view/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -17,7 +18,7 @@ class LoginView extends StatelessWidget {
               foregroundColor: Colors.white
             ),
             onPressed: () => _pushHome(context),
-            child: const Text('Log in')
+            child: Text(AppLocalizations.of(context)!.logIn)
           ),
         ),
       ),

@@ -1,11 +1,10 @@
 import 'dart:math';
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/cart/models/cart_product.dart';
-import 'package:benebono_technical_ex/counter/bloc/counter_bloc.dart';
-import 'package:benebono_technical_ex/counter/view/counter.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartProductWidget extends StatelessWidget {
   const CartProductWidget({
@@ -39,7 +38,7 @@ class CartProductWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${(product.price / 100).toStringAsFixed(2)}€ / unit', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                      Text('${(product.price / 100).toStringAsFixed(2)}€ / ${AppLocalizations.of(context)!.unit}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
                       RichText(
                         text: TextSpan(
                           style: const TextStyle(color: Colors.black),
@@ -60,18 +59,19 @@ class CartProductWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  BlocProvider(
-                    create: (context) => CounterBloc(cartProduct.quantity),
-                    child: BlocListener<CounterBloc, CounterState>(
-                      listener: (context, state) {
-                        if (cartProduct.quantity < state.count) {
-                          context.read<CartBloc>().add(AddProductToCartEvent(cartProduct.id));
-                        } else {
-                          context.read<CartBloc>().add(RemoveCartProductEvent(cartProduct.id));
-                        }
-                      },
-                      child: const Counter(min: 0, colorWhen0: Colors.red),
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () => context.read<CartBloc>().add(RemoveCartProductEvent(cartProduct.id)),
+                        icon: const Icon(Icons.remove_rounded)
+                      ),
+                      Text(cartProduct.quantity.toString()),
+                      IconButton(
+                        onPressed: () => context.read<CartBloc>().add(AddProductToCartEvent(cartProduct.id)),
+                        icon: const Icon(Icons.add_rounded)
+                      )
+                    ],
                   )
                 ],
               )

@@ -4,6 +4,7 @@ import 'package:benebono_technical_ex/cart/widgets/cart_product.dart';
 import 'package:benebono_technical_ex/products/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -49,8 +50,8 @@ class CartView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 50, child: BackButton()),
-                      Text('Cart', style: TextStyle(fontSize: 24)),
+                      const SizedBox(width: 50, child: BackButton()),
+                      Text(AppLocalizations.of(context)!.myCart, style: const TextStyle(fontSize: 24)),
                       const SizedBox(width: 50)
                     ],
                   ),
@@ -98,7 +99,7 @@ class CartView extends StatelessWidget {
                                       repeatForever: true
                                     ),
                                   ),
-                                  Text('  économisés !    ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  Text('  ${AppLocalizations.of(context)!.saved} !    ', style: const TextStyle(fontWeight: FontWeight.bold)),
                                 ],
                               ),
                             ]
@@ -117,11 +118,11 @@ class CartView extends StatelessWidget {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
                             ),
                             onPressed: () {},
-                            child: FittedBox(child: Text('Valider le panier', style: const TextStyle(fontWeight: FontWeight.bold))),
+                            child: FittedBox(child: Text(AppLocalizations.of(context)!.proceedToCheckout, style: const TextStyle(fontWeight: FontWeight.bold))),
                           )
                         )
                       ],
-                    ) : Center(child: Text('Votre panier est vide.')),
+                    ) : Center(child: Text(AppLocalizations.of(context)!.yourCartIsEmpty)),
                   ),
                 ],
               ),

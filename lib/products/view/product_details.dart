@@ -3,6 +3,7 @@ import 'package:benebono_technical_ex/counter/view/counter.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({
@@ -104,7 +105,7 @@ class ProductDetailsView extends StatelessWidget {
                               backgroundColor: Theme.of(context).primaryColor,
                               foregroundColor: Colors.white
                             ),
-                            child: Text('Add to Cart'),
+                            child: Text(AppLocalizations.of(context)!.addToCart),
                             onPressed: () {
                               addProducts(state.count);
                               Navigator.of(context).pop();

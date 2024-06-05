@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Counter extends StatelessWidget {
   const Counter({
     super.key,
+    this.value,
     this.min,
     this.colorWhen0
   });
 
+  final int?    value;
   final int?    min;
   final Color?  colorWhen0;
 
