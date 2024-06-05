@@ -9,10 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomeView extends StatelessWidget {
-  HomeView({super.key});
+
+// this widget is stateful in order to keep endDrawer open even if locale change (and so app rebuild)
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   static const double appBarHeight = 50;
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
@@ -66,10 +74,10 @@ class HomeView extends StatelessWidget {
                       ),
                       // this is the dyamic appBar based on BoolCubit value.
                       AnimatedPositioned(
-                        top: context.watch<BoolCubit>().state ? 0 : -appBarHeight,
+                        top: context.watch<BoolCubit>().state ? 0 : -HomeView.appBarHeight,
                         left: 0,
                         right: 0,
-                        height: appBarHeight,
+                        height: HomeView.appBarHeight,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
                         child: Container(
@@ -119,10 +127,10 @@ class _ProductsList extends StatelessWidget {
         if (notification is ScrollUpdateNotification) {
           final metrics = notification.metrics;
           final scrollDelta = notification.scrollDelta ?? 0;
-
-          if (scrollDelta.abs() > 10 &&
-            (metrics.pixels > metrics.minScrollExtent && metrics.pixels < metrics.maxScrollExtent) &&
-              ((context.read<BoolCubit>().state && scrollDelta > 0) || 
+                                                                                                        // CHECKS IN THIS IF :
+          if (scrollDelta.abs() > 10 &&                                                                 // user has scroll more than 10 pixel
+            (metrics.pixels > metrics.minScrollExtent && metrics.pixels < metrics.maxScrollExtent) &&   // AND (scrollView is not < min OR > max) (this prevent from 'bounceEffect' unwanted notifications)
+              ((context.read<BoolCubit>().state && scrollDelta > 0) ||                                  // AND user is scrolling in a way that need to trigers .invert()
               (!context.read<BoolCubit>().state && scrollDelta < 0))) {
             context.read<BoolCubit>().invert();
           }
