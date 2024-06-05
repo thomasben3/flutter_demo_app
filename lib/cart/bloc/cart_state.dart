@@ -16,6 +16,10 @@ sealed class CartState extends Equatable {
     return count;
   }
 
+  int nbProductsById(int id) {
+    return products.firstWhere((e) => e.id == id, orElse: () => const CartProduct(id: -1, quantity: 0)).quantity;
+  }
+
   @override
   List<Object> get props => [_products];
 }
@@ -27,6 +31,7 @@ final class CartInitialState extends CartState {
 final class CartLoadedState extends CartState {
   const CartLoadedState(super.products);
 
+  //return a copy of current state with a product added in choosen quantity, if it doesn't exist a new row is created in database via CartService
   CartLoadedState addProduct(int productId, int quantityAdded) {
     // use of List.from to force the state update with a new List.
     final newProducts = List<CartProduct>.from(products);
@@ -40,6 +45,30 @@ final class CartLoadedState extends CartState {
 
       CartService.updateProductQuantity(productId, updatedProduct.quantity);
       newProducts[index] = updatedProduct;
+    }
+
+    return CartLoadedState(newProducts);
+  }
+
+  CartLoadedState updateProductQuantity(int productId, int quantity) {
+    final newProducts = List<CartProduct>.from(products);
+    final index = newProducts.indexWhere((p) => p.id == productId);
+
+    if (index == -1) {
+      if (quantity > 0) {
+        CartService.addProduct(productId, quantity: quantity);
+        newProducts.add(CartProduct(id: productId, quantity: quantity));
+      }
+    } else {
+      final updatedProduct = CartProduct(id: productId, quantity: quantity);
+
+      CartService.updateProductQuantity(productId, updatedProduct.quantity);
+
+      if (quantity > 0) {
+        newProducts[index] = updatedProduct;
+      } else {
+        newProducts.removeAt(index);
+      }
     }
 
     return CartLoadedState(newProducts);

@@ -87,7 +87,7 @@ class _CartViewState extends State<CartView> {
                               ...List.generate(state.products.length, (index) => Column(
                                 children: [
                                   if (index != 0)
-                                    const Divider(color: Colors.grey, thickness: 0.2),
+                                    const Divider(color: Colors.grey, thickness: 0.2, height: 0.2),
                                   CartProductWidget(
                                     cartProduct: state.products[index],
                                     product: getProductsState(context).products.firstWhere((p) => p.id == state.products[index].id)
@@ -101,7 +101,7 @@ class _CartViewState extends State<CartView> {
                                 children: [
                                   SizedBox(
                                     height: 40,
-                                    width: 60,
+                                    width: 65,
                                     child: AnimatedTextKit(
                                       pause: Duration.zero,
                                       animatedTexts: [

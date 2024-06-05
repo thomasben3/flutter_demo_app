@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
-import 'package:benebono_technical_ex/cart/models/cart_product.dart';
 import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
 import 'package:benebono_technical_ex/counter/view/counter.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
@@ -13,17 +11,27 @@ class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({
     super.key,
     required this.product,
+    this.updateCart = false
   });
 
   final Product product;
 
+  // if updateCart == true then the view show/update directly the cart.
+  // Otherwise the view show a new counter, then add it to the current cart when we click on the button
+  final bool    updateCart;
+
   static const double _imageParentHeight = 150;
   static const double _imageParentWidth = 200;
 
-  int _getNbProductsInCart(BuildContext context) => context.read<CartBloc>().state.products.firstWhere(
-    (e) => e.id == product.id,
-    orElse: () => const CartProduct(id: -1, quantity: 0)
-  ).quantity;
+  int     _getCounterDefaultValue(BuildContext context) => updateCart ? _getNbProductsInCart(context) : 1;
+  int     _getNbProductsInCart(BuildContext context) => context.read<CartBloc>().state.nbProductsById(product.id);
+  String  _getButtonTitle(BuildContext context, int count) {
+    if (updateCart) {
+      if (count == 0) return AppLocalizations.of(context)!.removeProduct;
+      return AppLocalizations.of(context)!.updateCart;
+    }
+    return AppLocalizations.of(context)!.addToCart;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +88,7 @@ class ProductDetailsView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 24),
                       child: BlocProvider(
-                        create: (context) => CounterCubit(defaultValue: 1),
+                        create: (context) => CounterCubit(defaultValue: _getCounterDefaultValue(context)),
                         child: BlocBuilder<CounterCubit, int>(
                           builder: (context, state) {
                             return Column(
@@ -90,7 +98,10 @@ class ProductDetailsView extends StatelessWidget {
                                   style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 16.0),
-                                Counter(min: 1, max: product.availableUnits - _getNbProductsInCart(context)),
+                                Counter(
+                                  min: updateCart ? 0 : 1, // V if updateCart is false true then we calculate how much we can still add without passing availableUnits V
+                                  max: updateCart ? product.availableUnits : product.availableUnits - _getNbProductsInCart(context) 
+                                ),
                                 const SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -114,17 +125,21 @@ class ProductDetailsView extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-                                if (_getNbProductsInCart(context) < product.availableUnits)
+                                if (updateCart || _getNbProductsInCart(context) < product.availableUnits)
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Theme.of(context).primaryColor,
                                       foregroundColor: Colors.white
                                     ),
-                                    child: Text(AppLocalizations.of(context)!.addToCart),
                                     onPressed: () {
-                                      context.read<CartBloc>().add(AddProductToCartEvent(product.id, quantity: state));
+                                      if (updateCart) {
+                                        context.read<CartBloc>().add(SetProductQuantityEvent(product.id, state));
+                                      } else {
+                                        context.read<CartBloc>().add(AddProductToCartEvent(product.id, quantity: state));
+                                      }
                                       Navigator.of(context).pop();
-                                    }
+                                    },
+                                    child: Text(_getButtonTitle(context, state))
                                   )
                                 else
                                   Text(

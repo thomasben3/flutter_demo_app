@@ -5,6 +5,10 @@
     
     "addToCart": "Add to Cart",
 
+    "updateCart": "Update Cart",
+
+    "removeProduct": "Remove product",
+
     "unit": "unit",
 
     "ourProducts": "Our products",

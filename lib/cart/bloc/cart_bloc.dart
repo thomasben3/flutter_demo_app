@@ -19,6 +19,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(stateLoaded.addProduct(event.productId, event.quantity));
     });
 
+    on<SetProductQuantityEvent>((event, emit) {
+      if (state is CartLoadedState == false) return ;
+
+      final CartLoadedState stateLoaded = state as CartLoadedState;
+      emit(stateLoaded.updateProductQuantity(event.productId, event.quantity));
+    });
+
     on<RemoveCartProductEvent>((event, emit) {
       if (state is CartLoadedState == false) return ;
 
