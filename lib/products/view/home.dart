@@ -1,13 +1,17 @@
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/products/bloc/products_bloc.dart';
+import 'package:benebono_technical_ex/products/cubit/bool_cubit.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:benebono_technical_ex/products/widgets/cart_floating_button.dart';
 import 'package:benebono_technical_ex/products/widgets/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+
+  static const double appBarHeight = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +19,84 @@ class HomeView extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => ProductsBloc()..add(const ProductsLoadEvent())), // <-- event added here to load products when init widget.
         BlocProvider(create: (context) => CartBloc()..add(const CartInitEvent())),
+        BlocProvider(create: (context) => BoolCubit()),
       ],
-      child: Scaffold(
-        floatingActionButton: const CartFloatingButton(),
-        body: BlocBuilder<ProductsBloc, ProductsState>(
-          buildWhen: (previous, current) => previous != current,
-          builder: (context, state) {
-            if (state is ProductsLoadedState) {
-              return const _ProductsList();
-            } else if (state is ProductsErrorState) {
-              return SingleChildScrollView(
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        Text('Une erreur est survenue lors de la récupération des produits :'),
-                        const SizedBox(height: 15),
-                        Text(state.exception.toString()),
-                      ]
-                    ),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            floatingActionButton: const CartFloatingButton(),
+            body: Container(
+              color: Colors.white,
+              child: SafeArea(
+                left: false,
+                right: false,
+                bottom: false,
+                child: Material(
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: BlocBuilder<ProductsBloc, ProductsState>(
+                          buildWhen: (previous, current) => previous != current,
+                          builder: (context, state) {
+                            if (state is ProductsLoadedState) {
+                              return const _ProductsList();
+                            } else if (state is ProductsErrorState) {
+                              return SingleChildScrollView(
+                                child: SafeArea(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      children: [
+                                        Text('Une erreur est survenue lors de la récupération des produits :'),
+                                        const SizedBox(height: 15),
+                                        Text(state.exception.toString()),
+                                      ]
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const Center(child: Text('ca charge'));
+                          },
+                        ),
+                      ),
+                      // this is the dyamic appBar based on BoolCubit value.
+                      AnimatedPositioned(
+                        top: context.watch<BoolCubit>().state ? 0 : -appBarHeight,
+                        left: 0,
+                        right: 0,
+                        height: appBarHeight,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).padding.left,
+                            right: MediaQuery.of(context).padding.right
+                          ),
+                          color: Colors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const SizedBox(width: 50),
+                              Text(AppLocalizations.of(context)!.myCart, style: const TextStyle(fontSize: 24)),
+                              SizedBox(
+                                width: 50,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.menu)
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              );
-            }
-            return const Center(child: Text('ca charge'));
-          },
-        ),
+              ),
+            ),
+          );
+        }
       ),
     );
   }
@@ -55,10 +110,25 @@ class _ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollUpdateNotification) {
+          final metrics = notification.metrics;
+          final scrollDelta = notification.scrollDelta ?? 0;
+
+          if (scrollDelta.abs() > 10 &&
+            (metrics.pixels > metrics.minScrollExtent && metrics.pixels < metrics.maxScrollExtent) &&
+              ((context.read<BoolCubit>().state && scrollDelta > 0) || 
+              (!context.read<BoolCubit>().state && scrollDelta < 0))) {
+            context.read<BoolCubit>().invert();
+          }
+        }
+
+        return false ;
+      },
+      child: SingleChildScrollView(
         padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top + 16,
+          top: 16 + HomeView.appBarHeight,
           bottom: MediaQuery.of(context).padding.bottom + 16
         ),
         child: Center(
@@ -69,7 +139,7 @@ class _ProductsList extends StatelessWidget {
             runSpacing: 15,
             children: List.generate(getProducts(context).length, (index) {
               final Product product = getProducts(context)[index];
-          
+              
               return ProductWidget(product);
             }),
           ),

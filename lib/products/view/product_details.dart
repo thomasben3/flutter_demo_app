@@ -1,8 +1,7 @@
-import 'package:benebono_technical_ex/counter/bloc/counter_bloc.dart';
+import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
 import 'package:benebono_technical_ex/counter/view/counter.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -74,8 +73,8 @@ class ProductDetailsView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 24),
                       child: BlocProvider(
-                        create: (context) => CounterBloc(1),
-                        child: BlocBuilder<CounterBloc, CounterState>(
+                        create: (context) => CounterCubit(defaultValue: 1),
+                        child: BlocBuilder<CounterCubit, int>(
                           builder: (context, state) {
                             return Column(
                               children: [
@@ -90,7 +89,7 @@ class ProductDetailsView extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '${(product.priceInEuros * state.count).toStringAsFixed(2)}€',
+                                      '${(product.priceInEuros * state).toStringAsFixed(2)}€',
                                       style: const TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold
@@ -98,7 +97,7 @@ class ProductDetailsView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 15),
                                     Text(
-                                      '${(product.publicPriceInEuros * state.count).toStringAsFixed(2)}€',
+                                      '${(product.publicPriceInEuros * state).toStringAsFixed(2)}€',
                                       style: const TextStyle(
                                         fontSize: 24.0,
                                         decoration: TextDecoration.lineThrough,
@@ -115,7 +114,7 @@ class ProductDetailsView extends StatelessWidget {
                                   ),
                                   child: Text(AppLocalizations.of(context)!.addToCart),
                                   onPressed: () {
-                                    addProducts(state.count);
+                                    addProducts(state);
                                     Navigator.of(context).pop();
                                   }
                                 ),

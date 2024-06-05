@@ -1,4 +1,4 @@
-import 'package:benebono_technical_ex/counter/bloc/counter_bloc.dart';
+import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,20 +21,20 @@ class Counter extends StatelessWidget {
       children: [
         IconButton(
           style: IconButton.styleFrom(backgroundColor: Colors.white),
-          onPressed: () => context.read<CounterBloc>().add(CounterDecrementEvent(min: min)),
+          onPressed: () => context.read<CounterCubit>().decrement(),
           icon: const Icon(Icons.remove_rounded)
         ),
-        BlocBuilder<CounterBloc, CounterState>(
+        BlocBuilder<CounterCubit, int>(
           builder: (context, state) => Text(
-            state.count.toString(),
-            style: colorWhen0 != null && state.count == 0 ?
+            state.toString(),
+            style: colorWhen0 != null && state == 0 ?
               TextStyle(color: colorWhen0)
               : null
           ),
         ),
         IconButton(
           style: IconButton.styleFrom(backgroundColor: Colors.white),
-          onPressed: () => context.read<CounterBloc>().add(const CounterIncrementEvent()),
+          onPressed: () => context.read<CounterCubit>().increment(),
           icon: const Icon(Icons.add_rounded)
         )
       ],
