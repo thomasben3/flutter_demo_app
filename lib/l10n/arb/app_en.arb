@@ -25,5 +25,10 @@
 
     "anErrorOccurredWhileRetrievingTheProducts": "An error occurred while retrieving the products.",
 
-    "delete": "Delete"
+    "delete": "Delete",
+
+    "weight": "Weight:",
+    "discountReason": "Discount reason:",
+    "mustKnow": "Must know:",
+    "nutrition": "Nutrition:"
 }

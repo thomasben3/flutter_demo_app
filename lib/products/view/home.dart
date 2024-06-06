@@ -18,8 +18,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
-  static const double appBarHeight = 50;
-
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -75,7 +73,9 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
-// List view of the products
+/*
+  List view of the products
+*/
 class _ProductsList extends StatelessWidget {
   const _ProductsList();
 
@@ -85,7 +85,7 @@ class _ProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
-        top: 16 + HomeView.appBarHeight,
+        top: 16 + DynamicAppBarView.appBarHeight,
         bottom: MediaQuery.of(context).padding.bottom + 16
       ),
       child: Center(

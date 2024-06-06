@@ -5,6 +5,9 @@ import 'package:benebono_technical_ex/products/view/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/*
+  This widget represents a Product inside of HomeView / _ListProducts
+*/
 class ProductWidget extends StatelessWidget {
   const ProductWidget(this.product, {super.key});
 

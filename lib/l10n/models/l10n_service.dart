@@ -4,6 +4,9 @@ abstract class L10nService {
 
   static const String _languageCodeKey = 'language_code';
 
+  /*
+    Retrieve the locale from Shared Preferences. If it has never been set, then return null.
+  */
   static Future<String?> getLocale() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     

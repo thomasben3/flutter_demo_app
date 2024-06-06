@@ -1,6 +1,7 @@
 import 'package:benebono_technical_ex/cart/models/cart_product.dart';
 import 'package:sqflite/sqflite.dart';
 
+// This function init the database and tables if needed then return an instance of Database.
 Future<Database> initDatabase() async {
   return await openDatabase(
     'app_db',
@@ -17,6 +18,10 @@ Future<Database> initDatabase() async {
 
 abstract class CartService {
 
+  /*
+    Insert a new product inside the cart_items table.
+    You must be sure that this productId isn't already present in the table if you want to avoid duplication
+  */
   static Future<void> addProduct(int productId, {int quantity = 1}) async {
     final Database db = await initDatabase();
 
@@ -31,6 +36,11 @@ abstract class CartService {
     await db.close();
   }
 
+  /*
+    Update quantity of a product inside the cart_items table.
+    This function manage all cases. If update to quantity = 0 then delete the item,
+    If items is new then insert a new row into the table. Else it adjusts quantity of existing item.
+  */
   static Future<void> updateProductQuantity(int productId, int newQuantity) async {
     final Database db = await initDatabase();
 
@@ -56,6 +66,9 @@ abstract class CartService {
     await db.close();
   }
 
+  /*
+    Return all products in the cart
+  */
   static Future<List<CartProduct>> getProducts() async {
     final Database db = await initDatabase();
 

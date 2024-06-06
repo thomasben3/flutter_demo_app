@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-// This Widget represent each product inside of CartView
+// This Widget represent a product inside of CartView
 class CartProductWidget extends StatelessWidget {
   const CartProductWidget({
     super.key,

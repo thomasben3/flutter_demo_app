@@ -9,6 +9,11 @@ part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc() : super(const ProductsInitialState()) {
+
+    /*
+      This event try to fetch products. Then if succeed change state to ProductsLoadedState with these products.
+      In case of failure change state to ProductsErrorState to display the error
+    */
     on<ProductsLoadEvent>((event, emit) async {
       final dynamic products = await _fetchProduct();
       if (products is List<Product>) {
@@ -19,6 +24,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     });
   }
 
+  // try to fetch product from API, returns its if succeed, return exception if failed.
   Future<dynamic> _fetchProduct() async {
     final Dio dio = Dio();
 
@@ -31,5 +37,49 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     } catch (e) {
       return e;
     }
+  }
+
+  int getTotalPrice(List<CartProduct> cartProducts) {
+    int count = 0;
+    
+    for (CartProduct cartProduct in cartProducts) {
+      final Product product = state.products.firstWhere((p) => p.id == cartProduct.id, orElse: () => Product.sample());
+      if (product.id == -1) continue;
+
+      count += product.price * cartProduct.quantity;
+    }
+
+    return count;
+  }
+
+  int getTotalPublicPrice(List<CartProduct> cartProducts) {
+    int count = 0;
+    
+    for (CartProduct cartProduct in cartProducts) {
+      final Product product = state.products.firstWhere((p) => p.id == cartProduct.id, orElse: () => Product.sample());
+      if (product.id == -1) continue;
+
+      count += product.publicPrice * cartProduct.quantity;
+    }
+
+    return count;
+  }
+
+  // Returns the difference between totalPublicPrice and totalPrice in euros.
+  double getTotalSaves(List<CartProduct> cartProducts) {
+    final int totalPrice = getTotalPrice(cartProducts);
+    final int totalPublicPrice = getTotalPublicPrice(cartProducts);
+
+    return (totalPublicPrice - totalPrice) / 100;
+  }
+
+  // Returns the difference between totalPublicPrice and totalPrice in percentage.
+  double getTotalSavesInPercentage(List<CartProduct> cartProducts) {
+    final int totalPrice = getTotalPrice(cartProducts);
+    final int totalPublicPrice = getTotalPublicPrice(cartProducts);
+
+    if (totalPublicPrice == 0) return 0;
+
+    return (1 - (totalPrice / totalPublicPrice)) * 100;
   }
 }

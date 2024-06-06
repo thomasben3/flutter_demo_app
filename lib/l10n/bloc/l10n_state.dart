@@ -3,8 +3,10 @@ part of 'l10n_bloc.dart';
 sealed class L10nState extends Equatable {
   const L10nState(this.currentLocale);
 
+  // Current locale in use in this app.
   final Locale currentLocale;
-  
+
+  // Locales supported by this application.
   static const supportedLocales = [
     Locale('en'),
     Locale('fr'),

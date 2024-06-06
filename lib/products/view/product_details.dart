@@ -1,12 +1,15 @@
 import 'dart:math';
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
-import 'package:benebono_technical_ex/counter/view/counter.dart';
+import 'package:benebono_technical_ex/counter/widgets/counter.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/*
+  View of products details
+*/
 class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({
     super.key,
@@ -154,20 +157,20 @@ class ProductDetailsView extends StatelessWidget {
                                   runSpacing: 15,
                                   children: [
                                     _ProductDetailsTile(
-                                      label: 'Poids :',
+                                      label: AppLocalizations.of(context)!.weight,
                                       text: '${product.grams}g',
                                     ),
                                     _ProductDetailsTile(
-                                      label: 'Motif de la réduction :',
+                                      label: AppLocalizations.of(context)!.discountReason,
                                       text: product.reason,
                                     ),
                                     _ProductDetailsTile(
-                                      label: 'À savoir :',
+                                      label: AppLocalizations.of(context)!.mustKnow,
                                       text: product.productDetails.mustKnow,
                                     ),
                                     if (product.productDetails.nutritionalFacts != "")
                                       _ProductDetailsTile(
-                                        label: 'Nutrition :',
+                                        label: AppLocalizations.of(context)!.nutrition,
                                         text: product.productDetails.nutritionalFacts,
                                       )
                                   ],

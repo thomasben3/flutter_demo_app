@@ -11,7 +11,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
   This is the view of the cart.
   This widget is Stateful to prevent it from being rebuilt when the locale is changed, which would otherwise close the EndDrawer.
 */
-
 class CartView extends StatefulWidget {
   const CartView({super.key});
 
@@ -27,12 +26,12 @@ class _CartViewState extends State<CartView> {
   ProductsState getProductsState(BuildContext context) => context.watch<ProductsBloc>().state;
 
   String _getTotalPrice(BuildContext context, CartState state) =>
-    (getProductsState(context).getTotalPrice(state.products) / 100).toStringAsFixed(2);
+    (context.watch<ProductsBloc>().getTotalPrice(state.products) / 100).toStringAsFixed(2);
 
-  String _getTotalSaves(BuildContext context, CartState state) => getProductsState(context).getTotalSaves(state.products).toStringAsFixed(2);
+  String _getTotalSaves(BuildContext context, CartState state) => context.watch<ProductsBloc>().getTotalSaves(state.products).toStringAsFixed(2);
 
   String _getTotalSavesInPercentage(BuildContext context, CartState state) =>
-    getProductsState(context).getTotalSavesInPercentage(state.products).round().toString();
+    context.watch<ProductsBloc>().getTotalSavesInPercentage(state.products).round().toString();
 
   @override
   Widget build(BuildContext context) {

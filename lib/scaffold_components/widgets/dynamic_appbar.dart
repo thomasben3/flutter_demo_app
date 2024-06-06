@@ -2,6 +2,10 @@ import 'package:benebono_technical_ex/scaffold_components/cubit/bool_cubit.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/*
+  Widget used to wrap a View with a dynamic appbar.
+  The appBar will desapear when the user is scrolling down, and appears when scrolling up.
+*/
 class DynamicAppBarView extends StatelessWidget {
   const DynamicAppBarView({
     super.key,
@@ -15,6 +19,8 @@ class DynamicAppBarView extends StatelessWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
   final String                    title;
   final bool                      hasBackButton;
+
+  static const double appBarHeight = 50;
 
   bool _onScrollNotification(
       BuildContext context, ScrollNotification notification) {
@@ -73,6 +79,10 @@ class DynamicAppBarView extends StatelessWidget {
   }
 }
 
+/*
+  AppBar of DynamicAppBarView.
+  Will show an "open drawer" button if scaffoldKey is provided, and a BackButton if hasBackButton = true
+*/
 class _DynamicAppBar extends StatelessWidget {
   const _DynamicAppBar({
     required this.title,
@@ -84,15 +94,13 @@ class _DynamicAppBar extends StatelessWidget {
   final bool                      hasBackButton;
   final GlobalKey<ScaffoldState>? _scaffoldKey;
 
-  static const double appBarHeight = 50;
-
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
-      top: context.watch<BoolCubit>().state ? 0 : -appBarHeight,
+      top: context.watch<BoolCubit>().state ? 0 : -DynamicAppBarView.appBarHeight,
       left: 0,
       right: 0,
-      height: appBarHeight,
+      height: DynamicAppBarView.appBarHeight,
       duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
       child: Container(

@@ -25,5 +25,10 @@
 
     "anErrorOccurredWhileRetrievingTheProducts": "Une erreur est survenue lors de la récupération des produits.",
 
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+
+    "weight": "Poids :",
+    "discountReason": "Motif de la réduction :",
+    "mustKnow": "À savoir :",
+    "nutrition": "Nutrition :"
 }
