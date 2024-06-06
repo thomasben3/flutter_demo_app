@@ -1,4 +1,5 @@
 import 'package:benebono_technical_ex/l10n/bloc/l10n_bloc.dart';
+import 'package:benebono_technical_ex/login/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,6 +15,13 @@ class AppDrawer extends StatelessWidget {
     // list of locales without the curent one. Used to display childrens of _LanguageSelector
     final List<Locale> localeChildrens = L10nState.supportedLocales.where((e) => e != context.read<L10nBloc>().state.currentLocale).toList();
 
+    popDrawer() => Navigator.of(context).pop();
+
+    disconnect() {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginView()));
+    }
+
     return Drawer(
       backgroundColor: Theme.of(context).primaryColor,
       surfaceTintColor: Colors.transparent,
@@ -25,15 +33,28 @@ class AppDrawer extends StatelessWidget {
             bottom: MediaQuery.of(context).padding.bottom + 10,
             left: 10
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close_rounded, color: Colors.white)
-              ),
-              _LanguageSelector(localeChildrens: localeChildrens)
-            ],
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.vertical - 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: popDrawer,
+                      icon: const Icon(Icons.close_rounded, color: Colors.white)
+                    ),
+                    _LanguageSelector(localeChildrens: localeChildrens)
+                  ],
+                ),
+                TextButton(
+                  onPressed: disconnect,
+                  child: Text('Se deconnecter', style: const TextStyle(color: Colors.white)),
+                )
+              ],
+            ),
           ),
         ),
       ),

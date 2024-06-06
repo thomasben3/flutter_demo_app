@@ -1,6 +1,7 @@
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/products/bloc/products_bloc.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
+import 'package:benebono_technical_ex/products/view/products_loading.dart';
 import 'package:benebono_technical_ex/products/widgets/cart_floating_button.dart';
 import 'package:benebono_technical_ex/products/widgets/product.dart';
 import 'package:benebono_technical_ex/scaffold_components/widgets/drawer.dart';
@@ -62,7 +63,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     );
                   }
-                  return const Center(child: CircularProgressIndicator());
+                  return const ProductsLoadingList();
                 },
               ),
             ),

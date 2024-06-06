@@ -13,9 +13,11 @@ class ProductWidget extends StatelessWidget {
 
   final Product product;
 
-  static const Color _backgroundColor = Color.fromARGB(255, 235, 235, 235);
+  static const Color backgroundColor = Color.fromARGB(255, 235, 235, 235);
+  static const double productHeight = 120;
+  static const double productBorderRadius = 20;
 
-  double  getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width);
+  static double  getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width);
 
   bool    _isProductInCart(BuildContext context) => context.watch<CartBloc>().state.products.any((e) => e.id == product.id);
 
@@ -45,10 +47,10 @@ class ProductWidget extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-          color: _backgroundColor
+        borderRadius: BorderRadius.circular(productBorderRadius),
+          color: backgroundColor
         ),
-        height: 120,
+        height: productHeight,
         width: getProductWidth(context),
         child: Row(
           children: [
@@ -90,7 +92,7 @@ class ProductWidget extends StatelessWidget {
                 const VerticalDivider(color: Colors.grey, thickness: 0.5),
                 Material(
                   borderRadius: BorderRadius.circular(100),
-                  color: _backgroundColor,
+                  color: backgroundColor,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(100),
                     onTap: _isProductInCart(context) ? null : () => context.read<CartBloc>().add(AddProductToCartEvent(product.id)),
@@ -145,7 +147,22 @@ class ProductWidget extends StatelessWidget {
                 )
               ]
             ),
-            Image.network(product.imageUrl, width: (getProductWidth(context) * 0.25)),
+            Image.network(
+              product.imageUrl,
+              width: (getProductWidth(context) * 0.25),
+              loadingBuilder: (ctx, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return SizedBox(
+                  width: (getProductWidth(context) * 0.25),
+                  child: const Center(
+                    child: SizedBox.square(
+                      dimension: productHeight * 0.35,
+                      child: CircularProgressIndicator(color: Colors.grey, strokeWidth: 2)
+                    ),
+                  )
+                );
+              },
+            ),
           ],
         ),
       ),
