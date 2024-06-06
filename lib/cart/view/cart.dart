@@ -94,7 +94,8 @@ class _CartViewState extends State<CartView> {
                                   ),
                                 ],
                               )),
-                              const Divider(color: Color.fromARGB(255, 89, 89, 89), thickness: 0.5, indent: 40, endIndent: 40),
+                              const Divider(color: Color.fromARGB(255, 89, 89, 89), height: 0.5, thickness: 0.5, indent: 40, endIndent: 40),
+                              const SizedBox(height: 15),
                               Text('Total : ${_getTotalPrice(context, state)}€'),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
