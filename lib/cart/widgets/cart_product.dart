@@ -52,7 +52,7 @@ class CartProductWidget extends StatelessWidget {
             SlidableAction(
               backgroundColor: Colors.red,
               icon: Icons.delete,
-              label: 'Supprimer',
+              label: AppLocalizations.of(context)!.delete,
               onPressed: (_) => _removeProductFromCart(context)
             )
           ]

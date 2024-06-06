@@ -23,5 +23,7 @@
 
     "itLooksLikeYouAlreadyHaveAllOurStockInYourCart": "It looks like you already have all our stock in your cart!",
 
-    "anErrorOccurredWhileRetrievingTheProducts": "An error occurred while retrieving the products."
+    "anErrorOccurredWhileRetrievingTheProducts": "An error occurred while retrieving the products.",
+
+    "delete": "Delete"
 }

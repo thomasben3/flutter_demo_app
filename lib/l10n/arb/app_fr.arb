@@ -23,5 +23,7 @@
 
     "itLooksLikeYouAlreadyHaveAllOurStockInYourCart": "Il semblerait que vous ayez déja tout notre stock dans votre panier !",
 
-    "anErrorOccurredWhileRetrievingTheProducts": "Une erreur est survenue lors de la récupération des produits."
+    "anErrorOccurredWhileRetrievingTheProducts": "Une erreur est survenue lors de la récupération des produits.",
+
+    "delete": "Supprimer"
 }
