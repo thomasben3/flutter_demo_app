@@ -32,8 +32,6 @@ abstract class CartService {
         'quantity': quantity
       }
     );
-
-    await db.close();
   }
 
   /*
@@ -62,8 +60,6 @@ abstract class CartService {
         await addProduct(productId, quantity: newQuantity);
       }
     }
-
-    await db.close();
   }
 
   /*
@@ -76,8 +72,6 @@ abstract class CartService {
       'cart_items',
       columns: ['id', 'quantity']
     );
-
-    await db.close();
 
     return List.generate(
       rawRes.length,
