@@ -2,10 +2,15 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/cart/widgets/cart_product.dart';
 import 'package:benebono_technical_ex/products/bloc/products_bloc.dart';
-import 'package:benebono_technical_ex/scaffold_components/drawer.dart';
+import 'package:benebono_technical_ex/scaffold_components/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+/*
+  This is the view of the cart.
+  This widget is Stateful to prevent it from being rebuilt when the locale is changed, which would otherwise close the EndDrawer.
+*/
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -24,21 +29,10 @@ class _CartViewState extends State<CartView> {
   String _getTotalPrice(BuildContext context, CartState state) =>
     (getProductsState(context).getTotalPrice(state.products) / 100).toStringAsFixed(2);
 
-  String _getTotalSaves(BuildContext context, CartState state) {
-    final int totalPrice = getProductsState(context).getTotalPrice(state.products);
-    final int totalPublicPrice = getProductsState(context).getTotalPublicPrice(state.products);
+  String _getTotalSaves(BuildContext context, CartState state) => getProductsState(context).getTotalSaves(state.products).toStringAsFixed(2);
 
-    return ((totalPublicPrice - totalPrice) / 100).toStringAsFixed(2);
-  }
-
-  double _getTotalSavesInPercentage(BuildContext context, CartState state) {
-    final int totalPrice = getProductsState(context).getTotalPrice(state.products);
-    final int totalPublicPrice = getProductsState(context).getTotalPublicPrice(state.products);
-
-    if (totalPublicPrice == 0) return 0;
-
-    return (1 - (totalPrice / totalPublicPrice)) * 100;
-  }
+  String _getTotalSavesInPercentage(BuildContext context, CartState state) =>
+    getProductsState(context).getTotalSavesInPercentage(state.products).round().toString();
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +107,7 @@ class _CartViewState extends State<CartView> {
                                           textStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
                                         ),
                                         RotateAnimatedText(
-                                          '${_getTotalSavesInPercentage(context, state).round().toString()}%',
+                                          '${_getTotalSavesInPercentage(context, state)}%',
                                           duration: const Duration(seconds: 3),
                                           alignment: Alignment.centerRight,
                                           textStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)

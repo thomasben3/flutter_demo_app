@@ -33,6 +33,22 @@ sealed class ProductsState extends Equatable {
     return count;
   }
 
+  double getTotalSaves(List<CartProduct> cartProducts) {
+    final int totalPrice = getTotalPrice(cartProducts);
+    final int totalPublicPrice = getTotalPublicPrice(cartProducts);
+
+    return (totalPublicPrice - totalPrice) / 100;
+  }
+
+  double getTotalSavesInPercentage(List<CartProduct> cartProducts) {
+    final int totalPrice = getTotalPrice(cartProducts);
+    final int totalPublicPrice = getTotalPublicPrice(cartProducts);
+
+    if (totalPublicPrice == 0) return 0;
+
+    return (1 - (totalPrice / totalPublicPrice)) * 100;
+  }
+
   @override
   List<Object> get props => [];
 }

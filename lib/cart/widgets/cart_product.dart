@@ -3,7 +3,6 @@ import 'package:benebono_technical_ex/cart/bloc/cart_bloc.dart';
 import 'package:benebono_technical_ex/cart/models/cart_product.dart';
 import 'package:benebono_technical_ex/products/models/products.dart';
 import 'package:benebono_technical_ex/products/view/product_details.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
