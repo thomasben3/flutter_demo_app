@@ -51,7 +51,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: disconnect,
-                  child: Text('Se deconnecter', style: const TextStyle(color: Colors.white)),
+                  child: Text(AppLocalizations.of(context)!.disconnect, style: const TextStyle(color: Colors.white)),
                 )
               ],
             ),
@@ -74,17 +74,20 @@ class _LanguageSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      iconColor: Colors.white,
-      collapsedIconColor: Colors.white,
-      title: Text(AppLocalizations.of(context)!.language, style: const TextStyle(color: Colors.white, fontSize: 18)),
-      leading: Image.asset('assets/images/flags/${context.read<L10nBloc>().state.currentLocale.languageCode}.png', height: 40),
-      children: List.generate(localeChildrens.length, (index) =>
-        ListTile(
-          title: Text(lookupAppLocalizations(localeChildrens[index]).language, style: const TextStyle(color: Colors.white)),
-          leading: Image.asset('assets/images/flags/${localeChildrens[index].languageCode}.png', height: 35),
-          onTap: () => context.read<L10nBloc>().add(ChangeLocaleEvent(localeChildrens[index])),
-        )
+    return Theme(
+      data: ThemeData(dividerColor: Colors.white),
+      child: ExpansionTile(
+        iconColor: Colors.white,
+        collapsedIconColor: Colors.white,
+        title: Text(AppLocalizations.of(context)!.language, style: const TextStyle(color: Colors.white, fontSize: 18)),
+        leading: Image.asset('assets/images/flags/${context.read<L10nBloc>().state.currentLocale.languageCode}.png', height: 40),
+        children: List.generate(localeChildrens.length, (index) =>
+          ListTile(
+            title: Text(lookupAppLocalizations(localeChildrens[index]).language, style: const TextStyle(color: Colors.white)),
+            leading: Image.asset('assets/images/flags/${localeChildrens[index].languageCode}.png', height: 35),
+            onTap: () => context.read<L10nBloc>().add(ChangeLocaleEvent(localeChildrens[index])),
+          )
+        ),
       ),
     );
   }

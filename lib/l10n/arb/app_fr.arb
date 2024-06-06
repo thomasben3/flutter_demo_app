@@ -30,5 +30,11 @@
     "weight": "Poids :",
     "discountReason": "Motif de la réduction :",
     "mustKnow": "À savoir :",
-    "nutrition": "Nutrition :"
+    "nutrition": "Nutrition :",
+
+    "disconnect": "Se déconnecter",
+
+    "flutterDemoApplication": "Flutter application démo",
+
+    "practicalTestFor": "Test pratique pour"
 }
