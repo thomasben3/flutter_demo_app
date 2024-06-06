@@ -62,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     );
                   }
-                  return const Center(child: Text('ca charge'));
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),

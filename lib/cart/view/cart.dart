@@ -22,7 +22,7 @@ class _CartViewState extends State<CartView> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  // getProductsState is for the ProductBloc and here to access CartBloc we use state inside the BlocBuilder
+  // getProductsState is for the ProductBloc, to access CartBloc we use state inside the BlocBuilder
   ProductsState getProductsState(BuildContext context) => context.watch<ProductsBloc>().state;
 
   String _getTotalPrice(BuildContext context, CartState state) =>
@@ -43,7 +43,7 @@ class _CartViewState extends State<CartView> {
       child: BlocBuilder<CartBloc, CartState>(
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
-          if (state is CartLoadedState) {
+          if (state is CartLoadedState && getProductsState(context).products.isNotEmpty) {
             return Scaffold(
               key: _scaffoldKey,
               endDrawer: const AppDrawer(),
@@ -71,7 +71,7 @@ class _CartViewState extends State<CartView> {
                     ),
                   ),
                   Expanded(
-                    child: state.products.isNotEmpty && getProductsState(context).products.isNotEmpty ? Stack(
+                    child: state.products.isNotEmpty ? Stack(
                       children: [
                         SingleChildScrollView(
                           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 100),
@@ -144,7 +144,8 @@ class _CartViewState extends State<CartView> {
               ),
             );
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Scaffold(body: Center(child: CircularProgressIndicator())
+            );
           }
         },
       ),
