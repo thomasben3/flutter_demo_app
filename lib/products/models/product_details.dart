@@ -1,7 +1,7 @@
 part of 'products.dart';
 
 class ProductDetails {
-  ProductDetails(this.rawData);
+  const ProductDetails(this.rawData);
 
   final Map<String, dynamic> rawData;
 

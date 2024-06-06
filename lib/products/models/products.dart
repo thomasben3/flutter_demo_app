@@ -1,13 +1,18 @@
+import 'package:equatable/equatable.dart';
+
 part 'product_details.dart';
 
-class Product {
+class Product extends Equatable {
   Product({this.rawData = const {}}) : _productDetails = ProductDetails(rawData['product_details'] ?? const {});
 
   // constructor used to make error checks like List<Product>.firstWhere(...., orElse: () => Product.sample())
-  Product.sample() : rawData = {'id': -1, 'availableUnits': 0}, _productDetails = ProductDetails(const {});
+  const Product.sample() : rawData = const {'id': -1, 'availableUnits': 0}, _productDetails = const ProductDetails({});
 
   final Map<String, dynamic> rawData;
   final ProductDetails _productDetails;
+
+  @override
+  List<Object?> get props => [rawData];
 
   int get id => rawData['id'];
 

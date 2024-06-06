@@ -8,14 +8,20 @@ part 'products_event.dart';
 part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  ProductsBloc() : super(const ProductsInitialState()) {
+
+  static const String productsUrl = "https://static.horsnormes.co/mobile-practical-test/products.json";  
+
+  // this Dio is a variable to make the class testable with Mock.
+  final Dio _dio;
+
+  ProductsBloc({Dio? dio}) : _dio = dio ?? Dio(), super(const ProductsInitialState()) {
 
     /*
       This event try to fetch products. Then if succeed change state to ProductsLoadedState with these products.
       In case of failure change state to ProductsErrorState to display the error
     */
     on<ProductsLoadEvent>((event, emit) async {
-      final dynamic products = await _fetchProduct();
+      final dynamic products = await fetchProduct();
       if (products is List<Product>) {
         emit(ProductsLoadedState(products: products));
       } else if (products is Exception) {
@@ -25,11 +31,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   // try to fetch product from API, returns its if succeed, return exception if failed.
-  Future<dynamic> _fetchProduct() async {
-    final Dio dio = Dio();
-
+  Future<dynamic> fetchProduct() async {
     try {
-      final res = await dio.get("https://static.horsnormes.co/mobile-practical-test/products.json");
+      final res = await _dio.get(productsUrl);
 
       return List<Map<String, dynamic>>.from(res.data['data']).map((e) => Product(rawData: e)).toList();
     } on DioException catch (e) {
