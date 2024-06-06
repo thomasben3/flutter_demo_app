@@ -17,7 +17,7 @@ class ProductWidget extends StatelessWidget {
   static const double productHeight = 120;
   static const double productBorderRadius = 20;
 
-  static double  getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width);
+  static double  getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width * 0.95);
 
   bool    _isProductInCart(BuildContext context) => context.watch<CartBloc>().state.products.any((e) => e.id == product.id);
 
