@@ -2,7 +2,7 @@ import 'package:benebono_technical_ex/counter/cubit/counter_cubit.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-void counterCubitTests() {
+void main() {
   group('counter_cubit', () {
     late CounterCubit counterCubit;
 

@@ -3,14 +3,28 @@ import 'package:benebono_technical_ex/cart/models/cart_product.dart';
 import 'package:benebono_technical_ex/cart/models/cart_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void cartBlocTests() {
+void main() {
+
+  setUpAll(() async {
+    sqfliteFfiInit();
+
+    // Set the database factory to ffi factory.
+    databaseFactory = databaseFactoryFfi;
+    await (await initDatabase()).delete('cart_items');
+  });
+
+  tearDownAll(() async {
+    await (await initDatabase()).close();
+  });
+
   group('cart_bloc', () {
     late CartBloc cartBloc;
 
     setUp(() async {
-      await (await initDatabase()).delete('cart_items');
       cartBloc = CartBloc();
+      await (await initDatabase()).delete('cart_items');
     });
 
     tearDown(() => cartBloc.close());

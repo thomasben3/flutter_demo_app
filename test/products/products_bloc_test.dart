@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 @GenerateMocks([Dio])
 import 'products_bloc_test.mocks.dart';
 
-void productsBlocTests() {
+void main() {
   group('products_bloc', () {
     late ProductsBloc productsBloc;
 
