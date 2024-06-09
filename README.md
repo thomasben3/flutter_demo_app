@@ -49,7 +49,7 @@ flutter run
 
 ## Testing
 
-This project includes unit tests to ensure the functionality of the app.
+This project includes unit and integration tests to ensure the functionality of the app.
 
 ### Running Tests
 To run the tests, use the following command:
@@ -65,24 +65,26 @@ flutter test
 
 ## Dependencies
 
-### Basics
+### Core Functionality
 
-- **flutter_bloc**: Simplify the BLoC architecture implementation.
-- **equatable**: Allows to compare classes by content instead of memory adress.
-- **dio**: Manage http requests.
-- **sqflite**: Local database to store the cart items.
-- **flutter_localizations**: Manage localization system.
-- **shared_preferences**: Local storage to make basics data persistent.
+- **flutter_bloc**: Simplifies the BLoC architecture implementation.
+- **equatable**: Allows comparing classes by content instead of memory address.
+- **dio**: Manages HTTP requests.
+- **sqflite**: Local database for storing cart items.
+- **flutter_localizations**: Manages the localization system.
+- **hydrated_bloc**: Stores bloc states in local storage.
+- **path_provider**: Finds commonly used locations on the filesystem.
 
-### Decoratives
+### Decorative
 
-- **animated_text_kit**: Provide built-in text animations.
-- **flutter_animate**: Permit to write cleaner code when using animations.
-- **flutter_slidable**: Used only for deleting items from cart.
+- **animated_text_kit**: Provides built-in text animations.
+- **flutter_animate**: Allows writing cleaner code when using animations.
+- **flutter_slidable**: Used for deleting items from the cart.
 
 ### Testing
 
-- **bloc_test**: Simplify bloc testing.
+- **bloc_test**: Simplifies bloc testing.
 - **test**: Default test package.
-- **mockito**: Permit to mock classes when testing.
-- **build_runner**: Permit to build mockito generated files.
+- **integration_test**: Default integration package.
+- **mockito**: Allows mocking classes for testing.
+- **build_runner**: Generates files needed by Mockito.

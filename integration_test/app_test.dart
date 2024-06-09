@@ -1,8 +1,11 @@
 import 'package:benebono_technical_ex/l10n/bloc/l10n_bloc.dart';
 import 'package:benebono_technical_ex/main.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'robots/cart.dart';
 import 'robots/home.dart';
@@ -13,6 +16,14 @@ void main() {
     
     final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
     
+    WidgetsFlutterBinding.ensureInitialized();
+    // Here we initialize the storage for the hydrated_bloc package like in main.dart file.
+    HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getApplicationDocumentsDirectory(),
+    );
+
     // Here use the same BlocProvider as in the main.dart file.
     await tester.pumpWidget(BlocProvider(
       create: (context) => L10nBloc()..add(const InitLocaleEvent()),
