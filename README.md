@@ -85,6 +85,6 @@ flutter test
 
 - **bloc_test**: Simplifies bloc testing.
 - **test**: Default test package.
-- **integration_test**: Default integration package.
+- **integration_test**: Default integration test package.
 - **mockito**: Allows mocking classes for testing.
 - **build_runner**: Generates files needed by Mockito.
