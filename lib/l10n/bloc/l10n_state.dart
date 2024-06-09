@@ -19,3 +19,7 @@ sealed class L10nState extends Equatable {
 final class L10nInitialState extends L10nState {
   const L10nInitialState(super.locale);
 }
+
+final class L10nLoadedState extends L10nState {
+  const L10nLoadedState(super.locale);
+}

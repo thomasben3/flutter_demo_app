@@ -43,8 +43,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_animate: ^4.5.0
-  shared_preferences: ^2.2.3
+  hydrated_bloc: ^9.1.5
   flutter_slidable: ^3.1.0
+  path_provider: ^2.1.3
 
 dev_dependencies:
   flutter_test:
