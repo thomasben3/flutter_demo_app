@@ -13,11 +13,18 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+    this.navigatorKey
+  });
+
+  // Used to access AppLocalizations.of(context) in integration tests.
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Technical sample',
       locale: context.watch<L10nBloc>().state.currentLocale,
       supportedLocales: L10nState.supportedLocales,

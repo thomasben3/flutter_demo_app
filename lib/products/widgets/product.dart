@@ -16,6 +16,7 @@ class ProductWidget extends StatelessWidget {
   static const Color backgroundColor = Color.fromARGB(255, 235, 235, 235);
   static const double productHeight = 120;
   static const double productBorderRadius = 20;
+  static const IconData addToCartIcon = Icons.add_shopping_cart_rounded;
 
   static double  getProductWidth(BuildContext context) => min(400, MediaQuery.of(context).size.width * 0.95);
 
@@ -141,7 +142,7 @@ class ProductWidget extends StatelessWidget {
                             ],
                           ),
                         )
-                        : const Center(child: Icon(Icons.add_shopping_cart, color: Color.fromARGB(255, 68, 68, 68)))
+                        : const Center(child: Icon(addToCartIcon, color: Color.fromARGB(255, 68, 68, 68)))
                     )
                   ),
                 )

@@ -47,7 +47,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     int count = 0;
     
     for (CartProduct cartProduct in cartProducts) {
-      final Product product = state.products.firstWhere((p) => p.id == cartProduct.id, orElse: () => Product.sample());
+      final Product product = state.products.firstWhere((p) => p.id == cartProduct.id, orElse: () => const Product.sample());
       if (product.id == -1) continue;
 
       count += product.price * cartProduct.quantity;
@@ -60,7 +60,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     int count = 0;
     
     for (CartProduct cartProduct in cartProducts) {
-      final Product product = state.products.firstWhere((p) => p.id == cartProduct.id, orElse: () => Product.sample());
+      final Product product = state.products.firstWhere((p) => p.id == cartProduct.id, orElse: () => const Product.sample());
       if (product.id == -1) continue;
 
       count += product.publicPrice * cartProduct.quantity;
