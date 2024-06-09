@@ -19,6 +19,8 @@ class CartProductWidget extends StatelessWidget {
   final CartProduct cartProduct;
   final Product product;
 
+  static const IconData deleteIcon = Icons.delete;
+
   double getProductWidth(BuildContext context) => min(600, MediaQuery.of(context).size.width);
 
   // this function shows the details of the current product
@@ -50,7 +52,7 @@ class CartProductWidget extends StatelessWidget {
           children: [
             SlidableAction(
               backgroundColor: Colors.red,
-              icon: Icons.delete,
+              icon: deleteIcon,
               label: AppLocalizations.of(context)!.delete,
               onPressed: (_) => _removeProductFromCart(context)
             )

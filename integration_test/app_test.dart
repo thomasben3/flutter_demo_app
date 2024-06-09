@@ -39,5 +39,6 @@ void main() {
     
     await cartRobot.tapAddAndRemoveButton();
     await cartRobot.updateItemsFromBottomSheet();
+    await cartRobot.deleteItem();
   });
 }

@@ -72,4 +72,18 @@ class CartRobot {
     await tester.pumpAndSettle();
     expect(find.text((_initialFirstItemQuantity).toString()), findsOneWidget);
   }
+
+  Future<void> deleteItem() async {
+    final Finder cartProductWidget = find.byType(CartProductWidget);
+
+    await tester.drag(cartProductWidget.first, const Offset(-100, 0));
+    await tester.pumpAndSettle();
+
+    final Finder deleteButton = find.byIcon(CartProductWidget.deleteIcon);
+    expect(deleteButton, findsOneWidget);
+
+    await tester.tap(deleteButton);
+    await tester.pumpAndSettle();
+    expect(find.byType(CartProductWidget), findsNothing);
+  }
 }
